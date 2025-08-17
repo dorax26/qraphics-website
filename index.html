@@ -914,7 +914,7 @@
                 e.preventDefault();
                 const formData = new FormData(contactForm);
 
-                formStatus.innerHTML = '<p>送信中...</p>';
+                formStatus.innerHTML = '<p>Sending...</p>';
 
                 fetch(SCRIPT_URL, {
                     method: 'POST',
@@ -923,14 +923,14 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.result === 'success') {
-                        formStatus.innerHTML = '<p class="text-green-600">お問い合わせありがとうございます。メッセージは正常に送信されました。</p>';
+                        formStatus.innerHTML = '<p class="text-green-600">Your message was sent successfully.</p>';
                         contactForm.reset();
                     } else {
                         throw new Error('Server returned non-success response');
                     }
                 })
                 .catch(error => {
-                    formStatus.innerHTML = '<p class="text-red-600">メッセージの送信に失敗しました。時間をおいて再度お試しください。</p>';
+                    formStatus.innerHTML = '<p class="text-red-600">Message sending failed. Please try again later.</p>';
                 });
             });
 
