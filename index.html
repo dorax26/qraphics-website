@@ -869,6 +869,8 @@
             function updateDefaultMessage() {
                 if (inquiryType.value === 'purchase') {
                     const count = memberCountInput.value || '〇〇';
+                    const currentLang = document.documentElement.lang || 'ja';
+                    const template = translations[currentLang].contactDiscountRequest || translations['ja'].contactDiscountRequest;
                     messageTextarea.value = `${count}名でのディスカウントを希望します。`;
                 }
             }
