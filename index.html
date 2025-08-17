@@ -261,6 +261,10 @@
                         <label for="organization" class="block text-sm font-medium text-gray-700" data-translate-key="contactOrg">所属研究機関・企業名</label>
                         <input type="text" id="organization" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-lime-500 focus:border-lime-500">
                     </div>
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700" data-translate-key="contactName">お名前</label>
+                        <input type="text" id="name" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-lime-500 focus:border-lime-500">
+                    </div>
                     <div id="memberCountWrapper" class="hidden">
                         <label for="memberCount" class="block text-sm font-medium text-gray-700" data-translate-key="contactMembers">構成人数</label>
                         <input type="number" id="memberCount" min="1" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-lime-500 focus:border-lime-500">
@@ -883,9 +887,11 @@
                 const recipient = 'qraphics_official_1@qraphics.jp';
                 const subject = `Qraphics お問い合わせ: ${inquiryType.options[inquiryType.selectedIndex].text}`;
                 const email = document.getElementById('email').value;
+                const name = document.getElementById('name').value; // ★名前を取得する行を追加
                 const organization = document.getElementById('organization').value;
                 const message = messageTextarea.value;
-                let body = `返信先メールアドレス: ${email}\n`;
+                let body = `お名前: ${name}\n`; // ★メール本文に名前を追加
+                body += `返信先メールアドレス: ${email}\n`;
                 body += `所属: ${organization}\n\n`;
                 body += `--- お問い合わせ内容 ---\n${message}`;
                 const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
