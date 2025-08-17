@@ -914,20 +914,34 @@
             inquiryType.addEventListener('change', updateFormVisibility);
             memberCountInput.addEventListener('input', updateDefaultMessage);
 
+            const contactForm = document.getElementById('contactForm');
+            const formStatus = document.getElementById('form-status');
+            // ステップ4でコピーしたウェブアプリのURLをここに貼り付け
+            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGByFTiVJvyPMUaapxfSg6HFm8Dgl7Z3XG1424QAJIYa35b0X4oowSQ8QREz3tKE9qPg/exec"; 
+            
             contactForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const recipient = 'qraphics_official_1@qraphics.jp';
-                const subject = `Qraphics お問い合わせ: ${inquiryType.options[inquiryType.selectedIndex].text}`;
-                const email = document.getElementById('email').value;
-                const name = document.getElementById('name').value; // ★名前を取得する行を追加
-                const organization = document.getElementById('organization').value;
-                const message = messageTextarea.value;
-                let body = `お名前: ${name}\n`; // ★メール本文に名前を追加
-                body += `返信先メールアドレス: ${email}\n`;
-                body += `所属: ${organization}\n\n`;
-                body += `--- お問い合わせ内容 ---\n${message}`;
-                const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                window.location.href = mailtoLink;
+                const formData = new FormData(contactForm);
+            
+                // 送信中メッセージを表示
+                formStatus.innerHTML = '<p>送信中...</p>';
+            
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        formStatus.innerHTML = '<p class="text-green-600">お問い合わせありがとうございます。メッセージは正常に送信されました。</p>';
+                        contactForm.reset();
+                    } else {
+                        throw new Error('Server returned non-success response');
+                    }
+                })
+                .catch(error => {
+                    formStatus.innerHTML = '<p class="text-red-600">メッセージの送信に失敗しました。時間をおいて再度お試しください。</p>';
+                });
             });
 
             const langDisplay = document.getElementById('lang-display');
