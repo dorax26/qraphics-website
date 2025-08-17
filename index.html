@@ -896,7 +896,8 @@
                     updateDefaultMessage();
                 } else {
                     memberCountWrapper.classList.add('hidden');
-                    if (messageTextarea.value.includes('名でのディスカウントを希望します')) {
+                    if (const template = translations[currentLang].contactDiscountRequest || translations['ja'].contactDiscountRequest;
+                        messageTextarea.value = template.replace('{count}', count);
                         messageTextarea.value = '';
                     }
                 }
